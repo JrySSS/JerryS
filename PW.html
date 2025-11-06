@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- V5 修复: 页面标题现在会更新 -->
+    <title>Jerry Shen - Personal Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- V5 修复: 引入图标库 (用于移动端菜单) -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <style>
+        body {
+            font-family: 'Crimson Text', serif;
+            background-color: #f8f9fa; /* 更柔和的背景色 */
+        }
+        .page-section {
+            display: none; /* 默认隐藏所有页面 */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* V5 修复: 导航栏样式现在直接使用 Tailwind 类, 放弃 @apply */
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* V5 修复: 为时间轴的滚动条增加提示 */
+        .timeline-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .timeline-container::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+        .timeline-container::-webkit-scrollbar-track {
+            background-color: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        /* V5 修复: 为移动端菜单添加过渡动画 */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <!-- 容器 -->
+    <!-- V5 修复: 调整最大宽度为 6xl (更紧凑), 优化 padding -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- 导航栏 -->
+        <!-- V5 修复: 导航栏重构, 修复 @apply 问题, 增加移动端菜单功能 -->
+        <header class="sticky top-4 z-50 bg-white/80 backdrop-blur-lg rounded-xl shadow-sm border border-gray-100 mt-4">
+            <nav class="flex items-center justify-between p-3 md:p-4">
+                <!-- Logo/Name -->
+                <div class="flex-shrink-0">
+                    <!-- V5 修复: Logo 现在也是 hash 导航 -->
+                    <a href="#home" class="text-2xl font-extrabold text-gray-900">
+                        Jerry Shen
+                    </a>
+                </div>
+                
+                <!-- 桌面端导航 (V5 修复: 直接使用 Tailwind 类) -->
+                <div class="hidden md:flex items-center space-x-2 bg-gray-50 p-2 rounded-lg shadow-inner">
+                    <a href="#home" id="nav-home" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:text-gray-900 hover:bg-white hover:shadow-sm">Home</a>
+                    <a href="#activist" id="nav-activist" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:text-gray-900 hover:bg-white hover:shadow-sm">Urban Activist</a>
+                    <a href="#global" id="nav-global" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:text-gray-900 hover:bg-white hover:shadow-sm">Global Perspective</a>
+                    <a href="#leadership" id="nav-leadership" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:text-gray-900 hover:bg-white hover:shadow-sm">Leadership</a>
+                    <a href="#scholar" id="nav-scholar" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:text-gray-900 hover:bg-white hover:shadow-sm">Scholar</a>
+                    <a href="#contact" id="nav-contact" class="nav-link px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:text-gray-900 hover:bg-white hover:shadow-sm">Contact</a>
+                </div>
+
+                <!-- 移动端菜单按钮 (V5 修复: 增加 ID 和点击事件) -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:bg-gray-100">
+                        <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- 移动端下拉菜单 (V5 新增) -->
+            <div id="mobile-menu" class="md:hidden hidden opacity-0 transform -translate-y-2 p-4 space-y-2 bg-white border-t border-gray-100">
+                <a href="#home" class="mobile-nav-link block px-4 py-2 text-base font-medium text-gray-600 rounded-lg hover:bg-gray-50">Home</a>
+                <a href="#activist" class="mobile-nav-link block px-4 py-2 text-base font-medium text-gray-600 rounded-lg hover:bg-gray-50">Urban Activist</a>
+                <a href="#global" class="mobile-nav-link block px-4 py-2 text-base font-medium text-gray-600 rounded-lg hover:bg-gray-50">Global Perspective</a>
+                <a href="#leadership" class="mobile-nav-link block px-4 py-2 text-base font-medium text-gray-600 rounded-lg hover:bg-gray-50">Leadership</a>
+                <a href="#scholar" class="mobile-nav-link block px-4 py-2 text-base font-medium text-gray-600 rounded-lg hover:bg-gray-50">Scholar</a>
+                <a href="#contact" class="mobile-nav-link block px-4 py-2 text-base font-medium text-gray-600 rounded-lg hover:bg-gray-50">Contact</a>
+            </div>
+        </header>
+
+
+        <!-- 主内容区域 -->
+        <main class="mt-8">
+
+            <!-- PAGE 1: 首页 (Home) (V5 修复: ID 简化) -->
+            <section id="home" class="page-section" style="display: block;">
+                <div class="text-center py-16 md:py-24">
+                    
+                    <!-- 1. Memoji -->
+                    <div class="text-8xl mb-8">
+                      
+                        🧑‍💻
+                    </div>
+
+                    <!-- 2. Hi, I'm... (Flex 布局) -->
+                    <div class="flex justify-center items-center gap-4 md:gap-6 mb-6">
+                        <span class="text-6xl md:text-7xl">👋</span>
+                        <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 text-left">
+                            Hi, I'm Jerry Shen
+                        </h1>
+                    </div>
+                    
+                    <!-- 3. Quote (Highlighted) -->
+                    <blockquote class="text-xl md:text-2xl font-medium text-gray-600 max-w-2xl mx-auto my-8 italic">
+                        “Become who you are!”
+                        <span class="block text-right text-lg font-semibold not-italic text-gray-700 mt-2">— Friedrich Nietzsche</span>
+                    </blockquote>
+                    
+                    <!-- 4. 优雅的Slogan -->
+                    <p class="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-12">
+                        My journey is about connecting my work as an <strong class="font-semibold text-indigo-600">Urban Activist</strong>, my lens as a <strong class="font-semibold text-indigo-600">Global Observer</strong>, and my skills as an <strong class="font-semibold text-indigo-600">Interdisciplinary Scholar</strong> to build bridges and mend societal cracks.
+                    </p>
+
+                    <!-- 5. 2x2 Identity 按钮 (V5 修复: 链接改为 hash 导航) -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-16">
+                        <a href="#activist" class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            <span class="text-4xl">🏙️</span>
+                            <h3 class="text-xl font-bold mt-3 text-gray-900">Urban Activist</h3>
+                        </a>
+                        <a href="#global" class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            <span class="text-4xl">🌍</span>
+                            <h3 class="text-xl font-bold mt-3 text-gray-900">Global Perspective</h3>
+                        </a>
+                        <a href="#leadership" class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            <span class="text-4xl">🚀</span>
+                            <h3 class="text-xl font-bold mt-3 text-gray-900">Leadership</h3>
+                        </a>
+                        <a href="#scholar" class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            <span class="text-4xl">🔬</span>
+                            <h3 class="text-xl font-bold mt-3 text-gray-900">Interdisciplinary Scholar</h3>
+                        </a>
+                    </div>
+                    
+                    <!-- 6. Video Essay (V5 修复: 替换为占位图) -->
+                    <div class="max-w-5xl mx-auto"> 
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Video Essay: The Urban Patchworker</h2>
+                        
+                        <div class="w-full aspect-video rounded-lg overflow-hidden border border-gray-200 shadow-xl">
+                            <!-- V5 修复: 替换为占位图 -->
+                            <video src="jerry(8)2.mp4" alt="Video Essay Placeholder" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- 7. About Me -->
+                    <div id="about-me" class="max-w-6xl mx-auto mt-24 py-16 px-6 bg-white rounded-2xl shadow-lg border">
+                        <h2 class="text-4xl font-extrabold text-gray-900 text-center mb-12">About Me</h2>
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                            <!-- Left: Description (from friend) -->
+                            <div class="w-full md:w-2/3">
+                                <p class="text-base text-gray-500 not-italic mb-6">
+                                    I invited my high school friend, Jason Zeng, to share his perspective on me:
+                                </p>
+
+                                <div class="space-y-5">
+                                    <p class="text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+                                        "From my perspective, Jerry is a <strong class="font-semibold text-indigo-600">bridge-builder</strong>, unifying his roles as an Interdisciplinary Scholar and Urban Activist."
+                                    </p>
+                                    <p class="text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+                                        "He uses empathy to translate complex societal 'cracks'—like health disparities—into human stories, blending data, economics, and art. This approach extends beyond academics; as a Leader and Entrepreneur, he builds tangible solutions."
+                                    </p>
+                                    <p class="text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+                                        "Driven by a Global Perspective, Jerry connects disparate fields, from AI ethics to robotics, to foster dialogue and create measurable change."
+                                    </p>
+                                </div>
+                                
+                                <cite class="block text-right text-lg font-semibold text-gray-700 mt-6 not-italic">— JasonZ</cite>
+                            </div>
+                            <!-- Right: Photo (V5 修复: 替换为占位图) -->
+                            <div class="w-full md:w-1/3 flex justify-center">
+                                <img 
+                                    src="57E4C20D-E398-488A-A50C-75E218BEE902_4_5005_c.jpeg" 
+                                    alt="Portrait of Jerry Shen" 
+                                    class="w-72 h-72 object-cover rounded-lg shadow-md border-4 border-white"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <!-- PAGE 2: Urban Activist (V5 修复: ID 简化) -->
+            <section id="activist" class="page-section">
+                <div class="py-16">
+                    <!-- 1. 个人 Quote -->
+                    <blockquote class="text-2xl md:text-3xl font-medium text-gray-700 max-w-3xl mx-auto my-8 italic text-center">
+                        "I believe in not just observing the cracks in our society, but in taking real, tangible actions to mend them, starting with my own community."
+                        <span class="block text-right text-xl font-semibold not-italic text-indigo-600 mt-2">— Jerry Shen</span>
+                    </blockquote>
+
+                    <!-- V7 修复: 三栏表格布局 -->
+                    <h3 class="text-3xl font-extrabold text-center text-gray-900 mt-16 mb-8">My Journey as an Activist</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- 2023 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2023</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <!-- V9 修复: 锚点链接 -->
+                                    <a href="#activist-starwish">
+                                        <h5 class="font-bold text-gray-800">KINRICCI "Star Wish" Foundation</h5>
+                                        <p class="text-sm text-gray-600">Founded (Ongoing)</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2024 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2024</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#activist-starwish">
+                                        <h5 class="font-bold text-gray-800">KINRICCI "Star Wish" Foundation</h5>
+                                        <p class="text-sm text-gray-600">Ongoing</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#activist-vanke">
+                                        <h5 class="font-bold text-gray-800">Vanke Shen Zhen STEM Makerfair</h5>
+                                        <p class="text-sm text-gray-600">Exhibitor & Promoter</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2025 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2025</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#activist-starwish">
+                                        <h5 class="font-bold text-gray-800">KINRICCI "Star Wish" Foundation</h5>
+                                        <p class="text-sm text-gray-600">Ongoing</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#activist-exhibit">
+                                        <h5 class="font-bold text-gray-800">Flu Art Exhibition</h5>
+                                        <p class="text-sm text-gray-600">Curated</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#activist-tedx">
+                                        <h5 class="font-bold text-gray-800">TEDx Talk</h5>
+                                        <p class="text-sm text-gray-600">Delivered</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#activist-charity-run">
+                                        <h5 class="font-bold text-gray-800">Charity Run</h5>
+                                        <p class="text-sm text-gray-600">Representative</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <!-- V7 修复结束 -->
+
+                    <!-- 3. 详情区域 (V5 修复: 增加 scroll-mt-20 确保锚点正确) -->
+                    <div class="mt-24 space-y-20">
+                        <!-- 项目 1: KINRICCI “Star Wish” -->
+                        <div id="activist-starwish" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <!-- Left: 叙事 (70%) -->
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">KINRICCI “Star Wish” Foundation</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Initiator & Co-Founder</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        Inspired by reading Orwell and observing the class divides in my city, I founded a foundation to provide tangible support for disadvantaged worker groups in China.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Drafted the foundation charter and standardized documents.</li>
+                                        <li>Established a self-sustaining recycling program, selling discarded packaging to fund the foundation.</li>
+                                        <li>Initiated and co-organized a New Year Charity Run, reported by the Shenzhen Evening News.</li>
+                                    </ul>
+                                    <h4 class="font-semibold text-gray-700 mt-4">Impact:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Generated <strong>$18,000 in profit</strong> for the fund.</li>
+                                        <li>Successfully aided 4 families facing financial difficulties.</li>
+                                    </ul>
+                                </div>
+                                <!-- Right: 媒体 (30%) (V5 修复: 替换为占位图) -->
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="微信图片_2025-11-06_002514_390.jpg" alt="Foundation Logo" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                    <img src="IMG_3328.jpeg" alt="Charity Run" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="activist-vanke" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Vanke Shen Zhen STEM Maker Fair</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Exhibitor & Promoter</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        As part of the community promotion, we represented the school at the Vanke Makerfair to promote STEM education and seek support for our team (like sponsorship).
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Show our FRC & VEX robots to hundreds of families and children.</li>
+                                        <li>Introduce our team's mission and technical design to potential corporate sponsors. </li>
+                                        <li>Explain the value of STEM education to community members and local media.</li>
+                                    </ul>
+                                    <h4 class="font-semibold text-gray-700 mt-4">Impact:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>I successfully attracted the investment intention of a 3D printing company.</li>
+                                        <li>It has enhanced the participation of the local community in our robot project.</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="0070ecf9f9d05a6d61f23814aa2ae966.JPG" alt="Vanke Makerfair" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- 项目 2: Flu Awareness Art Exhibition -->
+                        <div id="activist-exhibit" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Vaccine Hesitancy & Public Art Exhibition</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Researcher & Curator</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        My research on vaccine hesitancy showed a deep cognitive gap. Data alone couldn't bridge it. So, I translated my 118 survey responses into a public art exhibition to tell a visual story.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Designed data visualizations from my survey on vaccine cognition.</li>
+                                        <li>Created a physical art installation (the blue "flu virus" model) to make the invisible threat visible.</li>
+                                        <li>Curated the exhibit at a public venue (Shenzhen-MixC-Wanxiang).</li>
+                                    </ul>
+                                    <h4 class="font-semibold text-gray-700 mt-4">Impact:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Attracted over <strong>1,000 visitors</strong>.</li>
+                                        <li>This was my first "public health patch," translating data into an emotional, resonant narrative.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 00.28.23.png" alt="Art Sculpture" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                    <img src="截屏2025-11-06 00.27.34.png" alt="At the Exhibit" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 项目 3: TEDx Talk -->
+                        <div id="activist-tedx" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">TEDx Shahe Street Salon</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Speaker</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        To further bridge the cognitive gap, I brought my findings on influenza's economic impact to the TEDx stage.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Translated complex economic terms (from my AP Micro project) into the simple metaphor of "ripple effects."</li>
+                                        <li>Analyzed influenza's multi-level economic impacts on individuals, enterprises, and society.</li>
+                                        <li>Proposed a 3-tiered response strategy to the audience.</li>
+                                    </ul>
+                                    <h4 class="font-semibold text-gray-700 mt-4">Impact:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Delivered a 10-minute speech to over <strong>100+ live audience members</strong>.</li>
+                                        <li>Successfully communicated "Health Economics" concepts to a general public.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 00.27.58.png" alt="TEDx Talk" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- V4 新增项目: 慈善跑步 -->
+                        <div id="activist-charity-run" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Shenzhen Evening News Charity Run</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Philanthropic Student Representative</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        As part of my foundation's outreach, I participated in a major city-wide charity event, acting as a representative for student-led philanthropy.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Represented the "Star Wish" project at the 2025 "New Year's Step" Public Welfare Action.</li>
+                                        <li>Gave an interview to Shenzhen Evening News about the importance of youth involvement in social good.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 00.30.35.png" alt="Charity Run Interview" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAGE 3: Global Perspective (V5 修复: ID 简化) -->
+            <section id="global" class="page-section">
+                <div class="py-16">
+                    <!-- 1. 个人 Quote -->
+                    <blockquote class="text-2xl md:text-3xl font-medium text-gray-700 max-w-3xl mx-auto my-8 italic text-center">
+                        "From the energy of New York to the precision of Frankfurt, my travels shaped me. I learned that to solve local problems, you must first understand global systems."
+                        <span class="block text-right text-xl font-semibold not-italic text-indigo-600 mt-2">— Jerry Shen</span>
+                    </blockquote>
+
+                    <!-- V7 修复: 三栏表格布局 -->
+                    <h3 class="text-3xl font-extrabold text-center text-gray-900 mt-16 mb-8">My Global Journey</h3>
+                    <!-- V10 修复: 4 栏网格布局 -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        
+                        <!-- Pre-2023 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">Pre-2023</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-early-travel">
+                                        <h5 class="font-bold text-gray-800">Cultural Enlightenment</h5>
+                                        <p class="text-sm text-gray-600">Travel & Exchange</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2023 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2023</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-ivy-cup">
+                                        <h5 class="font-bold text-gray-800">IVY CUP Speech Competition</h5>
+                                        <p class="text-sm text-gray-600">Competitor</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2024 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2024</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-summer-research">
+                                        <h5 class="font-bold text-gray-800">Beijing Summer Research</h5>
+                                        <p class="text-sm text-gray-600">Beijing</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-summer-research">
+                                        <h5 class="font-bold text-gray-800">Shanghai Summer Research</h5>
+                                        <p class="text-sm text-gray-600">Shanghai</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-siemens">
+                                        <h5 class="font-bold text-gray-800">Siemens Global Supplier Day</h5>
+                                        <p class="text-sm text-gray-600">Visited</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <!-- V19 修复: 这是一个跨页链接, 指向 Scholar 页面的 iGEM 详情 -->
+                                    <a href="#global-igem">
+                                        <h5 class="font-bold text-gray-800">iGEM International Competition</h5>
+                                        <p class="text-sm text-gray-600">Gold Medalist</p>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    
+                        
+                        <!-- V10 新增: 2025 Column -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2025</h4>
+                            <!-- V19 修复: 重新加回所有链接, 解决 "点击不了" 的BUG -->
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-frc">
+                                        <h5 class="font-bold text-gray-800">FRC Competition</h5>
+                                        <p class="text-sm text-gray-600">Shanghai & USA</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-columbia">
+                                        <h5 class="font-bold text-gray-800">Columbia Pre-College</h5>
+                                        <p class="text-sm text-gray-600">New York</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-conrad">
+                                        <h5 class="font-bold text-gray-800">Conrad National Finals</h5>
+                                        <p class="text-sm text-gray-600">Shanghai</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#global-mec">
+                                        <h5 class="font-bold text-gray-800">MEC Competition</h5>
+                                        <p class="text-sm text-gray-600">Shenzhen</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <!-- V7 修复结束 -->
+
+                    
+                    <!-- 3. 详情区域 -->
+                    <div class="mt-24 space-y-20">
+                        
+                        <!-- 展品 1: (Pre-2023) 跨文化启蒙 -->
+                        <div id="global-early-travel" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Piecemeal World Map: My "Global Perspective" Enlightenment</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Traveler, Exchange Student</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>My "global perspective" wasn't acquired in a single international competition; it was a long-term jigsaw puzzle. It began before 2023, with my exploration of cultural differences across China's provinces and my travels to International cities, like New York in USA and Paris in France.</p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <p>These early immersive experiences were my "training camp" for cross-cultural communication. I learned to observe, ask questions, and understand the thinking of people from different backgrounds. This built the solid foundation for my later multinational exchanges, such as in Germany and Paris.</p>
+                                    </div>
+                                </div>
+                                <!-- V10 修复: 2x2 网格布局 -->
+                                <div class="w-full md:w-3/10 grid grid-cols-2 gap-4">
+                                    <img src="IMG_1399.jpeg" alt="New York" class="w-full h-auto rounded-lg shadow-md aspect-square object-cover">
+                                    <img src="IMG_1747.jpeg" alt="Paris" class="w-full h-auto rounded-lg shadow-md aspect-square object-cover">
+                                    <img src="IMG_2081.jpeg" alt="Beijing" class="w-full h-auto rounded-lg shadow-md aspect-square object-cover">
+                                    <img src="IMG_2395.jpeg" alt="Shanghai" class="w-full h-auto rounded-lg shadow-md aspect-square object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 展品 2: (2023) IVY CUP -->
+                        <div id="global-ivy-cup" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">IVY CUP Speech Competition: The First Knock on "Global Issues"</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Competitor, Speaker</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>If early travel was "passive" observation, IVY CUP was my first "active" attempt to dismantle a complex global issue and form my own public opinion.</p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <p>The value of this competition far exceeded the speech itself. It forced me to research fields I had never touched. I realized that "knowing" about global issues was far from enough; instead, it sparked a strong "cognitive thirst" in me—a desire to explore the complex causes behind these grand issues and find paths to genuinely participate.</p>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 00.35.53.png" alt="IVY CUP Speech" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 展品 3: (2024 夏) 京沪夏研 -->
+                        <div id="global-summer-research" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Summer Research Exploration (Beijing & Shanghai)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Researcher</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>I spent the summer of 2024 conducting research in Beijing and Shanghai, diving deep into the latest technologies in distinct subjects, which served as a crucial foundation for my later academic performances.</p>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 00.41.45.png" alt="Summer Research" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 展品 4: (2024) Siemens -->
+                        <div id="global-siemens" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Siemens Global Supplier Day (Germany)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Assistant to the CEO</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>I traveled to Germany to gain insights into global supply chain management and corporate sustainability from a world leader.</p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>I originally thought that globalization was an abstract concept, but at the headquarters of Siemens, I witnessed its 'wireframe' with my own eyes. </li>
+                                            <li>I realized that 'sustainable development' is not a single button, but rather a sophisticated network composed of thousands of enterprises. A minor adjustment at the headquarters will propagate along the supply chain, leading to the elimination of the inferior and the selection of the superior, ultimately resulting in a huge loss for a company or even its immediate bankruptcy. </li>
+                                            <li>The 'ideal model' I had constructed academically was easily defeated by this vast and intricate real system. I realized that 'fixing the cracks' is not achieved through passion, but through a precise understanding of this global system.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 00.40.58.png" alt="Siemens Visit" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="global-igem" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">iGEM International Competition (Paris)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Student Leader</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            My role as Student Leader culminated in traveling to Paris for the iGEM Grand Jamboree. This was the ultimate test of our "global perspective."
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>In Paris, my reflection was that we had fallen into the "curse of knowledge". We are a group of technically excellent engineers, but we are unable to communicate with the world. I painfully realized that innovation itself doesn't speak; it must be "translated". The real "global challenge" is not our biological experiments, but how to bridge the cultural and linguistic gaps so that our achievements can be understood and recognized by a diverse international jury. I have learned that empathy is not only a social skill, but also the first tool for global scientific cooperation.
+                                            </li>
+                                          
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="C5BB5156-6127-4CC6-9E19-D580DC2CCC3B.jpeg" alt="iGEM Paris" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="global-frc" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">FRC Competition (Shanghai & USA)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Student Leader & Engineer</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            Competing in both Shanghai and the USA was a profound cross-cultural experience.
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>I witnessed with my own eyes that teams from the United States and Shanghai achieved equally outstanding engineering results with completely opposite philosophies </li>
+                                            <li>This completely shattered the assumption in my mind that there was only one best path</li>
+                                            <li>I understand that global leadership is not about imposing one's own style, but rather diagnosing the cultural background and transforming one's own way of thinking, thereby activating the entire team.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="12463364239ab8639b148abfb022df77.jpg" alt="FRC USA" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="global-columbia" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Columbia Pre-College (New York)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Student in a Global Cohort</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            Studying in New York City, a global hub, was as educational as the course itself. The true value was the global cohort.
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>I truly experienced the intense friction brought about by cognitive diversity. I learned that global thinking is not merely about understanding other countries (that's just traveling); it means accepting comments or criticisms from different cultures, regions, and backgrounds.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="9D5A5B02-DD70-4097-9914-D0A633A260FE.jpeg" alt="Columbia NYC" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="global-conrad" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Conrad National Finals (Shanghai)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Team CEO</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            Through a national final, the Conrad Challenge judges projects based on their potential for global impact and sustainability.
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>I realized that the issue of data center energy consumption that we were trying to address was not a "Shanghai" problem, but rather a "node" problem within the global computing network. This taught me that to become an effective "city actor", I must first be a "global observer".</li>
+                                            <li>Because if you don't understand the global technological and capital system that shapes this city, you simply cannot solve any of the real problems it faces in the 21st century.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="4EB9AB76-133D-4C65-BA9F-EF6D93AFC580.jpeg" alt="Conrad Finals" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="global-mec" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">MEC Competition (Shenzhen)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: CEO</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            We developed "SmartPets" in Shenzhen, a global innovation hub. Our business plan inherently had to consider international markets.
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>My reflection is that this has reshaped my identity as an innovator. We are no longer a "Shenzhen team"; from the very first day of our establishment, we have tacitly become a "global team".</li>
+                                            <li>The pressure we face is not to win the local competition, but to prove that our business model can compete with those of Silicon Valley or London.</li>
+                                            <li>This shift in mindset is fundamental: in today's world, "global perspective" is not a passive lens through which you observe; it is the "battlefield" where you participate in the competition.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="A20F1F14-4949-40A3-955E-9180ED90671A.jpeg" alt="MEC Shenzhen" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            
+            <!-- PAGE 4: Leadership (V5 修复: ID 简化) -->
+            <section id="leadership" class="page-section">
+                <div class="py-16">
+                    <!-- 1. 个人 Quote -->
+                    <blockquote class="text-2xl md:text-3xl font-medium text-gray-700 max-w-3xl mx-auto my-8 italic text-center">
+                        "I've learned that a true leader is not a commander, but a 'bridge-builder' who connects people through deep listening and mutual trust."
+                        <span class="block text-right text-xl font-semibold not-italic text-indigo-600 mt-2">— Jerry Shen</span>
+                    </blockquote>
+
+                    <!-- V7 修复: 三栏表格布局 -->
+                    <h3 class="text-3xl font-extrabold text-center text-gray-900 mt-16 mb-8">My Leadership Evolution</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- 2023 (Prequel) -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2023 (Prequel)</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-prequel">
+                                        <h5 class="font-bold text-gray-800">CTB Competition</h5>
+                                        <p class="text-sm text-gray-600">Team Member</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-prequel">
+                                        <h5 class="font-bold text-gray-800">NYEC Competition</h5>
+                                        <p class="text-sm text-gray-600">CIO</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-practice">
+                                        <h5 class="font-bold text-gray-800">VMA Student Ambassador (SA)</h5>
+                                        <p class="text-sm text-gray-600">Ambassador</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-practice">
+                                        <h5 class="font-bold text-gray-800">VMA Student Org (SNC)</h5>
+                                        <p class="text-sm text-gray-600">Member</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2024 (Manager) -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2024 (Manager)</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-manager">
+                                        <h5 class="font-bold text-gray-800">FRC Robotics</h5>
+                                        <p class="text-sm text-gray-600">Team Leader</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-manager">
+                                        <h5 class="font-bold text-gray-800">iGEM</h5>
+                                        <p class="text-sm text-gray-600">Student Leader</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2025 (Creator) -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2025 (Creator)</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-creator">
+                                        <h5 class="font-bold text-gray-800">Conrad Challenge</h5>
+                                        <p class="text-sm text-gray-600">CEO & National Finals</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-creator">
+                                        <h5 class="font-bold text-gray-800">Model Entrepreneur</h5>
+                                        <p class="text-sm text-gray-600">CEO & National Top 10</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#lead-creator">
+                                        <h5 class="font-bold text-gray-800">STEM Racing China</h5>
+                                        <p class="text-sm text-gray-600">Team Manager & National Top 5</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <!-- V7 修复结束 -->
+
+                    
+                    <!-- 3. 详情区域 -->
+                    <div class="mt-24 space-y-20">
+                        
+                        <!-- 展品 1: (2023) 领导力“前传” -->
+                        <div id="lead-prequel" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Prequel: Two Reflections as a "Follower" (CTB & NYEC)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Team Member (CTB), CIO (NYEC)</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>In 2023, my roles in CTB and NYEC were not as captain or CEO. As CIO or a general member, I observed team decisions from the "trenches."</p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection (The Why):</h4>
+                                        <p>I witnessed how a clear vision could ignite a team, and how a lack of direction led to friction. I painfully realized that a team's potential is not limited by its strongest member, but by the leader's vision and accountability. These two "follower" experiences were my awakening. I told myself: <strong>"Instead of waiting for instructions in chaos, I will become the one who sets the direction."</strong></p>
+                                        <h4 class="font-semibold text-gray-700">Future Outlook:</h4>
+                                        <p>These experiences ignited my "initiative." I resolved to seek the "direction-defining" role in all future projects.</p>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="E9B60EAA-5B7F-42E2-9F30-416167863847.jpeg" alt="CTB Team" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 展品 2: (2023) 社区领导力实践 -->
+                        <div id="lead-practice" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Practice Field: Serving My VMA Community (SA & SNC)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Student Ambassador (SA), SNC Member</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>After reflecting on why to lead, I immediately sought how to practice. SA and SNC (two student organizations in my school) were my answer.</p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <p>This wasn't about titles; it was about "service." As a Student Ambassador, I was the "face" of the school, learning to clearly convey our community spirit to visitors. In SNC, I learned to organize internal events to build cohesion. This trained my empathy and communication—the fundamental "muscles" of leadership.</p>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="E4CC01E0-90A3-42DA-924E-1FE94674F2A7_1_105_c.jpeg" alt="VMA Ambassador" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 展品 3: (2024) “管理者”的进阶 -->
+                        <div id="lead-manager" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Advanced: From "Servant" to "Manager" (FRC & iGEM)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Team Leader (FRC), Student Leader (iGEM)</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>In 2024, I stepped up, bringing my SA/SNC experience and my CTB/NYEC "ambition." My role evolved from "community servant" to "complex project manager."</p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <p>In FRC, I had to be the "bridge" connecting the engineering and media teams. In iGEM, I not only managed an interdisciplinary team but also had to "translate" our complex bio and hardware systems into a clear story on the international stage in Paris. I learned to manage time, balance conflicts, and lead a team toward a known, clear goal.</p>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="IMG_4080.jpeg" alt="FRC Robotics" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                    <img src="55E8D404-0E4C-4FBF-8657-9810DD5DEF5E.jpeg" alt="iGEM Paris" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 展品 4: (2025) “CEO”的创造 -->
+                        <div id="lead-creator" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Finale: From "Manager" to "Creator" (Conrad, MEC & STEM Racing)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: CEO & Team Captain / Team Manager</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>If FRC and iGEM were about leading a team to a "known" goal, my 2025 projects required me to be the "CEO"—leading a team to an <strong>unknown future I had to create.</strong></p>
+                                        <h4 class="font-semibold text-gray-700">From 0 to 1:</h4>
+                                        <p>"SmartPets" (MEC) and the "HPC System" (Conrad) were my insights into market gaps. I was "creating" a business—designing a product, writing the business plan, and assessing risk.</p>
+                                        <p>In <strong>STEM Racing China</strong>, as Team Manager, I balanced technical design with commercial feasibility. I led the aerodynamic design (CAD, 3D modeling) while also formulating sponsorship strategies and writing cost analysis reports to ensure maximum cost-effectiveness.</p>
+                                        <h4 class="font-semibold text-gray-700">My Reflection:</h4>
+                                        <p>This was the final answer to my 2023 "Prequel" reflections. Entrepreneurship isn't a title; it's the complete transformation from "awaiting instructions" to "creating the vision."</p>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="a909e243c6db97a1a20d1861ad379c79.jpg" alt="Conrad Challenge" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                    <img src="25F749C1-B5FF-4DFE-B8EE-33B9AF84C0EA.png" alt="MEC Award" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                    <img src="26466870-C7E2-4B7C-B093-71609C7FE7CE.jpeg" alt="STEM Racing" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAGE 5: Interdisciplinary Scholar (V5 修复: ID 简化) -->
+            <section id="scholar" class="page-section">
+                <div class="py-16">
+                    <!-- 1. 个人 Quote -->
+                    <blockquote class="text-2xl md:text-3xl font-medium text-gray-700 max-w-3xl mx-auto my-8 italic text-center">
+                        "The world's most complex problems don't fit into neat boxes. True solutions are found at the intersection of multiple subjects."
+                        <span class="block text-right text-xl font-semibold not-italic text-indigo-600 mt-2">— Jerry Shen</span>
+                    </blockquote>
+
+                    <!-- V7 修复: 三栏表格布局 -->
+                    <h3 class="text-3xl font-extrabold text-center text-gray-900 mt-16 mb-8">My Interdisciplinary Projects</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- 2023 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2023</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-ctb-tcm">
+                                        <h5 class="font-bold text-gray-800">CTB TCM Research</h5>
+                                        <p class="text-sm text-gray-600">Team Member</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2024 -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2024</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-igem-bio">
+                                        <h5 class="font-bold text-gray-800">iGEM (Bio-engineering + Hardware)</h5>
+                                        <p class="text-sm text-gray-600">Researcher</p>
+                                    </a>
+                                </li>
+                                <!-- V19 修复: 重新加回所有链接, 解决 "点击不了" 的BUG -->
+                              
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-frc">
+                                        <h5 class="font-bold text-gray-800">FRC Robotics (Scholar)</h5>
+                                        <p class="text-sm text-gray-600">Engineer</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-shanghai">
+                                        <h5 class="font-bold text-gray-800">Shanghai & Beijing Summer Research</h5>
+                                        <p class="text-sm text-gray-600">Student</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 2025 -->
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-lg border">
+                            <h4 class="text-2xl font-extrabold text-gray-900 mb-4 text-center">2025</h4>
+                            <ul class="space-y-3">
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-conrad">
+                                        <h5 class="font-bold text-gray-800">Conrad Challenge (Scholar)</h5>
+                                        <p class="text-sm text-gray-600">Researcher</p>
+                                    </a>
+                                </li>
+
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-mec">
+                                        <h5 class="font-bold text-gray-800">Model Entrepreneur (MEC)</h5>
+                                        <p class="text-sm text-gray-600">Researcher</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-ai">
+                                        <h5 class="font-bold text-gray-800">College AI Model Paper</h5>
+                                        <p class="text-sm text-gray-600">Co-Author</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-vat">
+                                        <h5 class="font-bold text-gray-800">UK VAT Policy (JLI)</h5>
+                                        <p class="text-sm text-gray-600">High Commendation</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-columbia">
+                                        <h5 class="font-bold text-gray-800">Columbia (Applied Math)</h5>
+                                        <p class="text-sm text-gray-600">Student</p>
+                                    </a>
+                                </li>
+                                <li class="p-3 bg-gray-50 rounded-lg shadow-sm transition-all hover:shadow-md hover:scale-[1.02]">
+                                    <a href="#scholar-stem-racing">
+                                        <h5 class="font-bold text-gray-800">STEM Racing China</h5>
+                                        <p class="text-sm text-gray-600">Team Manager & Engineer</p>
+                                    </a>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <!-- V7 修复结束 -->
+                    
+                    <!-- 3. 详情区域 -->
+                    <div class="mt-24 space-y-20">
+
+                        <!-- V4.2 新增展品: CTB TCM Research -->
+                        <div id="scholar-ctb-tcm" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Research on Teenagers' TCM Literacy (CTB)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Team Member</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        This was one of my first exposures to formal research, blending cultural studies with data analysis to understand youth perspectives on Traditional Chinese Medicine (TCM).
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Finished 10 literature reviews on TCM literacy and youth culture.</li>
+                                        <li>Conducted surveys for 100+ teenagers.</li>
+                                        <li>Analyzed survey data, including trust in TCM, its real-life applications, and parental influence.</li>
+                                        <li>Delivered the final presentation with teammates.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="CTB_论文收录证书.png" alt="TCM Research" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- V4.2 新增展品: iGEM Bio/Hardware -->
+                        <div id="scholar-igem-bio" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">iGEM: Bridging Biology and Hardware</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Interdisciplinary Researcher</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        Beyond my leadership role, the iGEM project was a deep dive into interdisciplinary scholarship. My core task was to be the "translator" between the wet lab (biology) and the engineering team (hardware).
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Helped develop the dual detection engineering architecture using modular design and standardized Golden Gate interfaces.</li>
+                                        <li>Designed and implemented six hardware modules (microfluidic chips, optics, temperature control).</li>
+                                        <li>Validated the universality of the system (for glucose, uric acid, etc.) through 5 bio-experiments and multiple hardware iterations.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 19.40.03.png" alt="iGEM Hardware" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="scholar-conrad" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Conrad Challenge: HPC Research</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Interdisciplinary Researcher</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            Beyond the "CEO" role, my primary contribution was as a researcher, blending computer science with energy economics.
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">What I Did (Scholarly Context):</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>Researched the thermal dynamics and energy consumption of High-Performance Computing (HPC) data centers.</li>
+                                            <li>Designed the "HPC Immersion Cooling System" concept, analyzing fluid dynamics and heat transfer principles.</li>
+                                            <li>Wrote the technical specifications and feasibility report for our business plan.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 19.32.36.png" alt="Conrad Research" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="scholar-mec" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Model Entrepreneur (MEC): "SmartPets" Research</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Market Researcher & Strategist</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            For "SmartPets," my scholarly role was to research the intersection of AI, consumer behavior, and market economics.
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">What I Did (Scholarly Context):</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>Conducted market research on the pet-tech industry, analyzing economic trends and gaps.</li>
+                                            <li>Researched the core competitors around the world, and AI-driven pet consumption decision behavior.</li>
+                                            <li>Developed the core AI model concept for personalized pet recommendations.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="IMG_4498.jpeg" alt="MEC Research" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="scholar-frc" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">FRC Robotics: Engineering & Design</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Engineer & Propagator</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            My "Scholar" role in FRC was technical and commercial. I was an engineer applying physics, computer science, and design principles. I was also an propagator who showcased our team and sought for the potential sponsor for our team. 
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">What I Did (Scholarly Context):</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>Utilized tools to fix and build the robot. </li>
+                                            <li>Applied principles of physics (mechanics, torque, center of gravity) to optimize robot performance.</li>
+                                            <li>Joined the stem makerfair in Shen Zhen, representing the school to exhibit our work and effort on several robotics competitions, FRC & VEX.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/1m-0 space-y-4">
+                                    <img src="截屏2025-11-06 19.35.23.png" alt="FRC Engineering" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="scholar-shanghai" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/1tam-0">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Summer Research (SH & BJ)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Academic Researcher</h3>
+                                    <div class="space-y-4 text-gray-600 leading-relaxed">
+                                        <p>
+                                            The research programs in Shanghai and Beijing were the foundational academic experiences. I focused on interdisciplinary learning and thinking. 
+                                        </p>
+                                        <h4 class="font-semibold text-gray-700">What I Did (Scholarly Context):</h4>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                            <li>Studied quantitative and qualitative research methodologies. Studied the research methodologies in laboratory.</li>
+                                            <li>Analyzed previous essays about the topic.</li>
+                                            <li>Wrote a scientific report based on my research in these two places.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="2F659A2F-F194-4195-98D1-C5F466918BE2_1_105_c.jpeg" alt="Summer Research" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 项目 1: College Admissions AI Model -->
+                        <div id="scholar-ai" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Quantifying Holistic Review: A Multi-Modal Approach</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Co-researcher & Published Paper Co-author</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        I co-authored a paper accepted by the 2025 Intl. Conference on Computational Intelligent and Robotics, blending data science with social science.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Developed the Comprehensive Applicant Profile Score (CAPS) framework.</li>
+                                        <li>Used transformer-based embeddings and GPT-based rubric scoring.</li>
+                                        <li>Employed XGBoost regression and SHAP to make predictions.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 19.42.05.png" alt="AI Model" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 项目 2: UK VAT Policy (John Locke) -->
+                        <div id="scholar-vat" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">John Locke Prize</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Independent Researcher (High Commendation)</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        I researched the impact of the UK’s collection of VAT on private school fees, blending economic theory with political philosophy.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Used Becker's theory of human capital and Rawls's Difference Principle to evaluate the policy.</li>
+                                        <li>Analyzed the policy's negative impacts on middle-income families.</li>
+                                        <li>Proposed 2 suggestions, including earmarking VAT revenues for public education.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="截屏2025-11-06 19.43.14.png" alt="John Locke Essay" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 项目 3: Columbia Pre-College Program -->
+                        <div id="scholar-columbia" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">Columbia Pre-College (Applied Mathematics)</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Student</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        I attended the "Thinking and Problem Solving: Math in the Real World" course to sharpen my analytical skills.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did:</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Applied probability theory to analyze economic and media phenomena.</li>
+                                        <li>Used combinatorial counting and Nash Equilibri to model complex issues.</li>
+                                        <li>Completed a final project on Bayesian game theory and delivered a lecture to 15+ peers.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="IMG_A2149A17-A004-4877-AC9D-17706554E948.jpeg" alt="Columbia" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="scholar-stem-racing" class="p-8 bg-white rounded-2xl shadow-lg border scroll-mt-20">
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <div class="w-full md:w-7/10">
+                                    <h2 class="text-3xl font-extrabold text-gray-900 mb-6">STEM Racing China: Applied Engineering & Aerodynamics</h2>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">My Role: Team Manager & Lead Designer</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">
+                                        In the "Scholar" role of STEM Racing, I am responsible for serving as the chief engineer and the chief financial officer. My duties involve converting physical and design theories into powerful racing vehicles and keeping costs within a reasonable range. This project is a pure application of interdisciplinary skills.
+                                    </p>
+                                    <h4 class="font-semibold text-gray-700">What I Did (Scholarly Context):</h4>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2 leading-relaxed">
+                                        <li>Apply the principles of aerodynamics and mechanical engineering to design the vehicle body.</li>
+                                        <li>Use CAD software for 3D modeling and component simulation</li>
+                                        <li>Analyze the team's budget as well as the specific costs and potential returns of the racing cars, in order to maximize the benefits.</li>
+                                        <li>Finish technical specifications and cost analysis reports, integrating engineering and economic principles.</li>
+                                    </ul>
+                                </div>
+                                <div class="w-full md:w-3/10 space-y-4">
+                                    <img src="IMG_6129.jpg" alt="STEM Racing Car Design" class="w-full h-auto rounded-lg shadow-md aspect-video object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </section>
+            
+            <!-- PAGE 6: 联系方式 (Contact) (V5 修复: ID 简化) -->
+            <section id="contact" class="page-section">
+                <div class="text-center py-24 md:py-32">
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4">Get in Touch</h1>
+                    <p class="text-xl md:text-2xl text-gray-600 max-w-lg mx-auto mb-10">
+                        I'm always looking for new "cracks" to mend and new people to collaborate with.
+                    </p>
+                    <a href="mailto:shenruiyi@stu.vma.edu.cn" class="inline-block bg-indigo-600 text-white text-lg font-semibold px-8 py-4 rounded-lg shadow-lg hover:bg-indigo-700 transition-all duration-300">
+                        Email Me: shenruiyi@stu.vma.edu.cn
+                    </a>
+                    
+                    <div class="flex justify-center space-x-6 mt-12">
+                        <!-- V5 修复: 替换为真实链接 (占位) -->
+                        <a href="tel: +8616621000666" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-gray-800 font-medium">
+                            Contact Number: +86 166 2100 0666
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-gray-800 font-medium">
+                            
+                        </a>
+                    </div>
+                </div>
+            </section>
+        
+        </main>
+    </div>
+
+    <!-- V9 修复: 智能导航 JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pages = document.querySelectorAll('.page-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            const pageIds = ['home', 'activist', 'global', 'leadership', 'scholar', 'contact'];
+
+            // 更新激活的导航链接
+            function updateNavActiveState(activePageId) {
+                // 桌面
+                navLinks.forEach(link => {
+                    link.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
+                    if (link.id === `nav-${activePageId}`) {
+                        link.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+                    }
+                });
+                
+                // 移动
+                mobileNavLinks.forEach(link => {
+                    link.classList.remove('bg-gray-100', 'font-bold');
+                    if (link.hash === `#${activePageId}`) {
+                        link.classList.add('bg-gray-100', 'font-bold');
+                    }
+                });
+                
+                // 更新浏览器标题
+                const activeLink = document.getElementById(`nav-${activePageId}`);
+                if (activeLink) {
+                    document.title = `Jerry Shen - ${activeLink.textContent}`;
+                } else if (activePageId === 'home') {
+                    document.title = 'Jerry Shen - Personal Website';
+                }
+            }
+
+            // 显示特定页面, 隐藏其他页面
+            function showPage(pageId) {
+                let foundPage = false;
+                pages.forEach(page => {
+                    if (page.id === pageId) {
+                        page.style.display = 'block';
+                        foundPage = true;
+                    } else {
+                        page.style.display = 'none';
+                    }
+                });
+                return foundPage;
+            }
+
+            // V9 核心逻辑: 更新页面
+            function updateActivePage() {
+                let hash = window.location.hash.substring(1);
+                
+                // 默认页面
+                if (!hash) {
+                    hash = 'home';
+                }
+
+                // 尝试将 hash 视为一个主页面 ID
+                if (pageIds.includes(hash)) {
+                    showPage(hash);
+                    updateNavActiveState(hash);
+                    // 切换主页面时, 滚动到顶部
+                    window.scrollTo(0, 0);
+                    
+                    // 关闭移动菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        toggleMobileMenu();
+                    }
+                    
+                } else {
+                    // hash 不是一个主页面 ID, 将其视为一个锚点
+                    const anchorElement = document.getElementById(hash);
+                    if (anchorElement) {
+                        // 找到这个锚点所在的父页面
+                        const parentPage = anchorElement.closest('.page-section');
+                        if (parentPage) {
+                            const parentPageId = parentPage.id;
+                            
+                            // 如果父页面当前是隐藏的
+                            if (parentPage.style.display === 'none') {
+                                // 1. 显示父页面
+                                showPage(parentPageId);
+                                // 2. 更新导航栏
+                                updateNavActiveState(parentPageId);
+                            }
+                            
+                            // 3. (在下一帧) 滚动到锚点
+                            // V9 修复: 使用 requestAnimationFrame 确保平滑滚动
+                            requestAnimationFrame(() => {
+                                anchorElement.scrollIntoView({ behavior: 'smooth' });
+                            });
+                        }
+                    }
+                }
+            }
+
+            // 移动端菜单切换
+            function toggleMobileMenu() {
+                if (mobileMenu.classList.contains('hidden')) {
+                    // Open menu
+                    mobileMenu.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        mobileMenu.classList.remove('opacity-0', '-translate-y-2');
+                        mobileMenu.classList.add('opacity-100', 'translate-y-0');
+                        mobileMenuButton.innerHTML = '<ion-icon name="close-outline" class="w-6 h-6"></ion-icon>';
+                    });
+                } else {
+                    // Close menu
+                    mobileMenu.classList.remove('opacity-100', 'translate-y-0');
+                    mobileMenu.classList.add('opacity-0', '-translate-y-2');
+                    mobileMenuButton.innerHTML = '<ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>';
+                    
+                    // 等待动画结束再隐藏
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                }
+            }
+
+            // --- 事件监听 ---
+
+            // 1. 监听 hash 变化 (V9 核心)
+            window.addEventListener('hashchange', updateActivePage);
+
+            // 2. 页面初始加载时
+            updateActivePage();
+
+            // 3. 移动端菜单按钮
+            mobileMenuButton.addEventListener('click', toggleMobileMenu);
+            
+            // 4. 点击移动端链接后自动关闭菜单 (V9 修复: 已在 updateActivePage 中处理)
+            // (无需额外监听 mobileNavLinks, hashchange 会处理一切)
+
+        });
+    </script>
+
+</body>
+</html>
